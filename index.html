@@ -3,100 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eef2fb">
+<meta name="theme-color" content="#0A0908">
 <title>物业管理台账</title>
 <style>
 /* ============================================================
    物业管理台账 · 单文件 HTML 版
-   iOS 风格毛玻璃界面 + 彩色图标 · 兼容 PC / 手机 / 平板
+   鎏金风格（Obsidian Gold）· 与个人网站 index 一致 · 兼容 PC / 手机 / 平板
    ============================================================ */
 :root{
-  --text:#0f172a; --muted:#64748b; --faint:#94a3b8;
-  --glass:rgba(255,255,255,.62); --glass-strong:rgba(255,255,255,.82);
-  --line:rgba(15,23,42,.08); --line2:rgba(15,23,42,.14);
-  --danger:#ef4444; --ok:#10b981; --warn:#f59e0b;
+  --text:#F5EDDD; --muted:#B7A488; --faint:#7E7060;
+  --glass:rgba(217,181,125,.055); --glass-strong:rgba(24,20,14,.92);
+  --line:rgba(217,181,125,.16); --line2:rgba(217,181,125,.30);
+  --danger:#f87171; --ok:#34d399; --warn:#fbbf24;
   --r-lg:20px; --r-md:14px; --r-sm:10px;
-  --shadow:0 8px 32px rgba(31,38,135,.10);
-  --shadow-sm:0 2px 12px rgba(31,38,135,.08);
+  --shadow:0 14px 44px -14px rgba(0,0,0,.6);
+  --shadow-sm:0 8px 26px -12px rgba(0,0,0,.55);
   --sb-w:236px;
+  --gold:#D9B57D; --gold-deep:#B98E48; --gold-bright:#E8CF96; --ink-gold:#241B0C;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  color:var(--text); background:#eef2f9; min-height:100vh; font-size:15px; line-height:1.55;
+  color:var(--text); background:#0A0908; min-height:100vh; font-size:15px; line-height:1.55;
 }
-/* 背景装饰光斑 */
+/* 背景装饰：曜石金晕（呼吸光斑） */
 .bg-deco{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.bg-deco i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
-.bg-deco i:nth-child(1){width:46vmax;height:46vmax;left:-12vmax;top:-14vmax;background:#c7d8ff}
-.bg-deco i:nth-child(2){width:38vmax;height:38vmax;right:-10vmax;top:22vh;background:#ffd9ec}
-.bg-deco i:nth-child(3){width:40vmax;height:40vmax;left:24vw;bottom:-18vmax;background:#c9f3ec}
-a{color:#4f6ef2;text-decoration:none}
+.bg-deco i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.8;
+  background:radial-gradient(circle,rgba(217,181,125,.15),transparent 65%);animation:breathe 9s ease-in-out infinite}
+.bg-deco i:nth-child(1){width:55vmax;height:55vmax;left:8vmax;top:-24vmax}
+.bg-deco i:nth-child(2){width:40vmax;height:40vmax;right:-12vmax;top:30vh;background:radial-gradient(circle,rgba(180,130,60,.13),transparent 65%);animation-duration:11s;animation-delay:.8s}
+.bg-deco i:nth-child(3){width:44vmax;height:44vmax;left:16vw;bottom:-20vmax;animation-duration:10s;animation-delay:1.6s}
+@keyframes breathe{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.95;transform:scale(1.1)}}
+/* 细颗粒金线底纹 */
+.bg-deco::after{content:'';position:absolute;inset:0;opacity:.5;
+  background-image:repeating-linear-gradient(0deg,transparent 0 79px,rgba(217,181,125,.04) 79px 80px),
+                   repeating-linear-gradient(90deg,transparent 0 79px,rgba(217,181,125,.04) 79px 80px)}
+a{color:var(--gold);text-decoration:none}
 button{font-family:inherit}
 input,select,textarea{font-family:inherit;font-size:15px;color:var(--text)}
-::placeholder{color:#a8b3c4}
+::placeholder{color:#7E7060}
+::selection{background:var(--gold);color:#1A1408}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-thumb{background:rgba(217,181,125,.3);border-radius:8px}
 .hidden{display:none!important}
 
-/* ---------- 毛玻璃卡片 ---------- */
+/* ---------- 鎏金玻璃卡片 ---------- */
 .glass{
-  background:var(--glass);
-  backdrop-filter:blur(24px) saturate(1.7); -webkit-backdrop-filter:blur(24px) saturate(1.7);
-  border:1px solid rgba(255,255,255,.66); border-radius:var(--r-lg);
+  position:relative;
+  background:linear-gradient(160deg,rgba(255,240,210,.07),rgba(217,181,125,.03));
+  backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%);
+  border:1px solid rgba(217,181,125,.18); border-radius:var(--r-lg);
   box-shadow:var(--shadow);
 }
+.glass::after{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,240,200,.55),transparent)}
 .card{padding:18px 20px}
 
-/* ---------- 彩色图标块 ---------- */
+/* ---------- 鎏金图标块（金系统一色系） ---------- */
 .ico{width:38px;height:38px;min-width:38px;border-radius:12px;display:inline-grid;place-items:center;
-  color:#fff;font-size:19px;line-height:1;
-  background:linear-gradient(135deg,var(--g1,#6366f1),var(--g2,#8b5cf6));
-  box-shadow:0 4px 12px rgba(99,102,241,.35)}
+  color:var(--ink-gold);font-size:19px;line-height:1;
+  background:linear-gradient(135deg,var(--g1,#E3C383),var(--g2,#B98E48));
+  box-shadow:0 4px 12px rgba(217,181,125,.22)}
 .ico.sm{width:30px;height:30px;min-width:30px;border-radius:9px;font-size:15px}
 .ico.lg{width:52px;height:52px;min-width:52px;border-radius:16px;font-size:26px}
-.g-blue{--g1:#4f8df9;--g2:#6366f1;box-shadow:0 4px 12px rgba(79,141,249,.35)}
-.g-purple{--g1:#8b5cf6;--g2:#6d5bf6;box-shadow:0 4px 12px rgba(139,92,246,.35)}
-.g-green{--g1:#34d399;--g2:#0ea373;box-shadow:0 4px 12px rgba(16,185,129,.35)}
-.g-pink{--g1:#f472b6;--g2:#f43f5e;box-shadow:0 4px 12px rgba(244,114,182,.35)}
-.g-amber{--g1:#fbbf24;--g2:#f59e0b;box-shadow:0 4px 12px rgba(245,158,11,.35)}
-.g-cyan{--g1:#22d3ee;--g2:#0ea5e9;box-shadow:0 4px 12px rgba(34,211,238,.35)}
-.g-teal{--g1:#2dd4bf;--g2:#0d9488;box-shadow:0 4px 12px rgba(20,184,166,.35)}
-.g-slate{--g1:#94a3b8;--g2:#64748b;box-shadow:0 4px 12px rgba(100,116,139,.35)}
-.g-red{--g1:#fb7185;--g2:#ef4444;box-shadow:0 4px 12px rgba(239,68,68,.35)}
-.g-indigo{--g1:#818cf8;--g2:#4f46e5;box-shadow:0 4px 12px rgba(79,70,229,.35)}
+.g-blue{--g1:#E3C383;--g2:#B98E48;box-shadow:0 4px 12px rgba(217,181,125,.25)}
+.g-purple{--g1:#C9A05E;--g2:#8a6a35;box-shadow:0 4px 12px rgba(185,142,72,.25)}
+.g-green{--g1:#F0DCA8;--g2:#C9A05E;box-shadow:0 4px 12px rgba(240,220,168,.22)}
+.g-pink{--g1:#D9B57D;--g2:#9a7437;box-shadow:0 4px 12px rgba(217,181,125,.25)}
+.g-amber{--g1:#F5E0B4;--g2:#D9B57D;box-shadow:0 4px 12px rgba(245,224,180,.25)}
+.g-cyan{--g1:#E8CF96;--g2:#A87F3E;box-shadow:0 4px 12px rgba(232,207,150,.22)}
+.g-teal{--g1:#C9A05E;--g2:#7a5c28;box-shadow:0 4px 12px rgba(185,142,72,.28)}
+.g-slate{--g1:#B7A488;--g2:#7E7060;box-shadow:0 4px 12px rgba(183,164,136,.22)}
+.g-red{--g1:#E0A96D;--g2:#A0522D;box-shadow:0 4px 12px rgba(160,82,45,.28)}
+.g-indigo{--g1:#D9B57D;--g2:#8a6a35;box-shadow:0 4px 12px rgba(217,181,125,.25)}
 
 /* ---------- 登录页 ---------- */
 #loginView{min-height:100vh;display:grid;place-items:center;padding:20px}
 .login-box{width:min(400px,94vw);padding:36px 30px;text-align:center}
 .login-box .ico{margin:0 auto 14px}
-.login-box h1{font-size:22px;letter-spacing:1px}
+.login-box h1{font-size:22px;letter-spacing:1px;background:linear-gradient(115deg,#F5E0B4,#D9B57D 45%,#F0DCA8 70%,#A87F3E);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .login-box .sub{color:var(--muted);font-size:13px;margin:4px 0 22px}
 .login-box .field{text-align:left;margin-bottom:14px}
 .login-box .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
-.login-tip{margin-top:16px;font-size:12.5px;color:var(--faint);background:rgba(255,255,255,.5);
+.login-tip{margin-top:16px;font-size:12.5px;color:var(--muted);background:rgba(217,181,125,.06);
   border:1px dashed var(--line2);border-radius:var(--r-sm);padding:8px 10px}
 
 /* ---------- 应用骨架 ---------- */
 #appView{display:flex;min-height:100vh}
 #sidebar{width:var(--sb-w);min-width:var(--sb-w);position:sticky;top:0;height:100vh;
   display:flex;flex-direction:column;padding:18px 12px;z-index:30;
-  background:rgba(255,255,255,.5);backdrop-filter:blur(26px) saturate(1.7);-webkit-backdrop-filter:blur(26px) saturate(1.7);
-  border-right:1px solid rgba(255,255,255,.6)}
+  background:rgba(12,10,7,.6);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);
+  border-right:1px solid rgba(217,181,125,.14)}
 .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 16px}
-.brand b{font-size:16.5px;letter-spacing:.5px}
+.brand b{font-size:16.5px;letter-spacing:.5px;color:var(--gold-bright)}
 .brand small{display:block;font-size:11px;color:var(--faint);font-weight:400}
 #sideNav{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
 .nav-item{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:13px;cursor:pointer;
   color:var(--text);font-weight:500;font-size:14.5px;border:none;background:none;width:100%;text-align:left;
   transition:background .15s}
-.nav-item:hover{background:rgba(255,255,255,.65)}
-.nav-item.active{background:linear-gradient(135deg,rgba(99,102,241,.16),rgba(139,92,246,.14));
-  box-shadow:inset 0 0 0 1px rgba(99,102,241,.22)}
+.nav-item:hover{background:rgba(217,181,125,.08)}
+.nav-item.active{background:linear-gradient(135deg,rgba(217,181,125,.16),rgba(217,181,125,.07));
+  box-shadow:inset 0 0 0 1px rgba(217,181,125,.3);color:var(--gold-bright)}
 .nav-item .ico{width:30px;height:30px;min-width:30px;font-size:15px;border-radius:9px}
 .side-foot{border-top:1px solid var(--line);padding-top:12px;margin-top:8px}
-.user-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.55)}
-.user-chip .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;
-  font-weight:700;font-size:14px;background:linear-gradient(135deg,#818cf8,#4f46e5)}
+.user-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:13px;background:rgba(217,181,125,.07)}
+.user-chip .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--ink-gold);
+  font-weight:700;font-size:14px;background:linear-gradient(135deg,#E8CF96,#B98E48)}
 .user-chip b{font-size:13.5px;display:block;line-height:1.2}
 .user-chip small{color:var(--muted);font-size:11.5px}
 .side-foot .btn{margin-top:10px;width:100%}
@@ -104,25 +116,25 @@ input,select,textarea{font-family:inherit;font-size:15px;color:var(--text)}
 .main-area{flex:1;min-width:0;display:flex;flex-direction:column}
 #topbar{position:sticky;top:0;z-index:25;display:none;align-items:center;gap:10px;
   padding:12px 16px;margin:10px 12px 0;
-  background:rgba(255,255,255,.55);backdrop-filter:blur(24px) saturate(1.7);-webkit-backdrop-filter:blur(24px) saturate(1.7);
-  border:1px solid rgba(255,255,255,.6);border-radius:16px;box-shadow:var(--shadow-sm)}
+  background:rgba(12,10,7,.55);backdrop-filter:blur(22px) saturate(140%);-webkit-backdrop-filter:blur(22px) saturate(140%);
+  border:1px solid rgba(217,181,125,.16);border-radius:16px;box-shadow:var(--shadow-sm)}
 #topbar h2{font-size:16.5px;flex:1;display:flex;align-items:center;gap:8px}
 #pageWrap{flex:1;padding:18px 22px 28px;max-width:1280px;width:100%;margin:0 auto}
 .page-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
 .page-head .ico{width:42px;height:42px;min-width:42px;font-size:21px;border-radius:13px}
-.page-head h2{font-size:21px}
+.page-head h2{font-size:21px;background:linear-gradient(115deg,#F5E0B4,#D9B57D 45%,#F0DCA8 70%,#A87F3E);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .page-head .sub{color:var(--muted);font-size:13px}
 .page-head .spacer{flex:1}
 
 /* ---------- 顶栏/底部导航（移动） ---------- */
 #tabbar{display:none;position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));
   z-index:40;padding:8px;border-radius:22px;justify-content:space-around;
-  background:rgba(255,255,255,.72);backdrop-filter:blur(28px) saturate(1.8);-webkit-backdrop-filter:blur(28px) saturate(1.8);
-  border:1px solid rgba(255,255,255,.7);box-shadow:0 10px 34px rgba(31,38,135,.16)}
+  background:rgba(16,14,10,.78);backdrop-filter:blur(28px) saturate(150%);-webkit-backdrop-filter:blur(28px) saturate(150%);
+  border:1px solid rgba(217,181,125,.22);box-shadow:0 10px 34px rgba(0,0,0,.5)}
 .tab{display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:none;cursor:pointer;
   color:var(--muted);font-size:10.5px;padding:4px 10px;border-radius:12px;min-width:56px}
 .tab .ti{font-size:19px;line-height:1.2;filter:grayscale(1);opacity:.6;transition:.15s}
-.tab.active{color:#4f46e5;font-weight:600}
+.tab.active{color:var(--gold-bright);font-weight:600}
 .tab.active .ti{filter:none;opacity:1;transform:translateY(-1px)}
 
 /* ---------- 统计卡 ---------- */
@@ -131,7 +143,7 @@ input,select,textarea{font-family:inherit;font-size:15px;color:var(--text)}
 .stat .num{font-size:21px;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums}
 .stat .num small{font-size:12.5px;font-weight:600;color:var(--muted)}
 .stat .label{font-size:12.5px;color:var(--muted);font-weight:600}
-.stat.warn .num{color:#b45309}.stat.danger .num{color:var(--danger)}.stat.ok .num{color:#047857}
+.stat.warn .num{color:var(--warn)}.stat.danger .num{color:var(--danger)}.stat.ok .num{color:var(--ok)}
 
 /* ---------- 通用区块 ---------- */
 .section{margin-bottom:18px}
@@ -148,9 +160,9 @@ table.tbl th{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color
 table.tbl td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
 table.tbl tr:last-child td{border-bottom:none}
 table.tbl tbody tr{transition:background .12s}
-table.tbl tbody tr:hover{background:rgba(255,255,255,.55)}
+table.tbl tbody tr:hover{background:rgba(217,181,125,.06)}
 table.tbl .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border-top:1.5px solid var(--line2)}
+table.tbl tr.total-row td{font-weight:700;background:rgba(217,181,125,.08);border-top:1.5px solid var(--line2)}
 .tbl-empty{padding:34px 16px;text-align:center;color:var(--faint);font-size:14px}
 .t-primary{font-weight:600}
 .t-dim{color:var(--faint);font-size:12.5px}
@@ -161,30 +173,30 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
 .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;
   font-size:12px;font-weight:600;white-space:nowrap}
 .badge i{width:6px;height:6px;border-radius:50%;background:currentColor}
-.st-unpaid{background:rgba(239,68,68,.12);color:#dc2626}
-.st-partial{background:rgba(245,158,11,.15);color:#b45309}
-.st-paid{background:rgba(16,185,129,.14);color:#047857}
-.st-overdue{background:rgba(239,68,68,.18);color:#b91c1c}
-.st-gray{background:rgba(100,116,139,.13);color:#475569}
-.st-active{background:rgba(16,185,129,.14);color:#047857}
-.st-ended{background:rgba(100,116,139,.13);color:#64748b}
-.st-info{background:rgba(79,141,249,.13);color:#1d4ed8}
+.st-unpaid{background:rgba(248,113,113,.14);color:#fca5a5}
+.st-partial{background:rgba(251,191,36,.14);color:#fcd34d}
+.st-paid{background:rgba(52,211,153,.15);color:#6ee7b7}
+.st-overdue{background:rgba(248,113,113,.2);color:#fda4af}
+.st-gray{background:rgba(126,112,96,.22);color:#B7A488}
+.st-active{background:rgba(52,211,153,.15);color:#6ee7b7}
+.st-ended{background:rgba(126,112,96,.22);color:#8f8073}
+.st-info{background:rgba(217,181,125,.14);color:#E8CF96}
 
 /* ---------- 按钮 ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;cursor:pointer;
-  padding:9px 18px;border-radius:13px;font-size:14px;font-weight:600;color:#fff;
-  background:linear-gradient(135deg,#4f8df9,#6366f1);box-shadow:0 4px 14px rgba(79,141,249,.35);
+  padding:9px 18px;border-radius:13px;font-size:14px;font-weight:600;color:var(--ink-gold);
+  background:linear-gradient(135deg,#C9A05E,#E8CF96 50%,#B98E48);box-shadow:0 4px 14px rgba(217,181,125,.28);
   transition:transform .12s,box-shadow .12s,opacity .12s;white-space:nowrap}
-.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(79,141,249,.42)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(217,181,125,.45)}
 .btn:active{transform:translateY(0) scale(.98)}
 .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 .btn.sm{padding:6px 12px;font-size:12.5px;border-radius:10px}
-.btn.ghost{background:rgba(255,255,255,.7);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
-.btn.ghost:hover{background:#fff}
-.btn.danger{background:linear-gradient(135deg,#fb7185,#ef4444);box-shadow:0 4px 14px rgba(239,68,68,.32)}
-.btn.ok{background:linear-gradient(135deg,#34d399,#10b981);box-shadow:0 4px 14px rgba(16,185,129,.32)}
+.btn.ghost{background:rgba(217,181,125,.07);color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.btn.ghost:hover{background:rgba(217,181,125,.14)}
+.btn.danger{background:linear-gradient(135deg,#fb7185,#ef4444);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.32)}
+.btn.ok{background:linear-gradient(135deg,#D4AC66,#F0DA9E 50%,#C09550);color:var(--ink-gold);box-shadow:0 4px 18px rgba(217,181,125,.42)}
 .btn.icon-only{padding:7px 9px}
-.link-btn{border:none;background:none;color:#4f6ef2;cursor:pointer;font-size:13px;font-weight:600;padding:2px 4px}
+.link-btn{border:none;background:none;color:var(--gold);cursor:pointer;font-size:13px;font-weight:600;padding:2px 4px}
 .link-btn.danger{color:var(--danger)}
 
 /* ---------- 表单 ---------- */
@@ -192,34 +204,36 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
 .field label{display:block;font-size:13px;color:var(--muted);font-weight:600;margin-bottom:6px}
 .field label .req{color:var(--danger)}
 .input,.select,.textarea{width:100%;padding:9px 13px;border-radius:12px;border:1px solid var(--line2);
-  background:rgba(255,255,255,.75);outline:none;transition:border .15s,box-shadow .15s}
-.input:focus,.select:focus,.textarea:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+  background:rgba(255,250,235,.05);outline:none;transition:border .15s,box-shadow .15s}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,181,125,.15)}
+/* 下拉选项：深底金字，避免系统默认白底配浅色文字看不清 */
+select option{background:#1B1611;color:var(--text)}
 .textarea{min-height:76px;resize:vertical}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
 .form-grid .full{grid-column:1/-1}
 @media(max-width:560px){.form-grid{grid-template-columns:1fr}}
 .check-row{display:flex;flex-wrap:wrap;gap:8px 16px}
 .check-item{display:inline-flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;
-  background:rgba(255,255,255,.6);border:1px solid var(--line2);padding:7px 12px;border-radius:11px}
-.check-item input{accent-color:#6366f1;width:15px;height:15px}
+  background:rgba(217,181,125,.05);border:1px solid var(--line2);padding:7px 12px;border-radius:11px}
+.check-item input{accent-color:#C9A05E;width:15px;height:15px}
 .input-hint{font-size:12px;color:var(--faint);margin-top:4px}
 
 /* ---------- 弹窗 ---------- */
 .modal-mask{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:18px;
-  background:rgba(15,23,42,.32);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  background:rgba(0,0,0,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   animation:fadeIn .16s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 .modal{width:min(640px,96vw);max-height:88vh;overflow-y:auto;padding:22px;border-radius:24px;
-  background:rgba(255,255,255,.9);backdrop-filter:blur(30px) saturate(1.8);-webkit-backdrop-filter:blur(30px) saturate(1.8);
-  border:1px solid rgba(255,255,255,.7);box-shadow:0 24px 64px rgba(31,38,135,.25);animation:popIn .18s}
+  background:rgba(22,19,14,.94);backdrop-filter:blur(28px) saturate(140%);-webkit-backdrop-filter:blur(28px) saturate(140%);
+  border:1px solid rgba(217,181,125,.22);box-shadow:0 24px 64px rgba(0,0,0,.6);animation:popIn .18s}
 .modal.lg{width:min(860px,96vw)}
 .modal.sm{width:min(420px,96vw)}
 .modal-head{display:flex;align-items:center;gap:11px;margin-bottom:16px}
 .modal-head h3{font-size:17.5px;flex:1}
-.modal-x{border:none;background:rgba(15,23,42,.06);width:32px;height:32px;border-radius:50%;cursor:pointer;
+.modal-x{border:none;background:rgba(217,181,125,.09);width:32px;height:32px;border-radius:50%;cursor:pointer;
   font-size:15px;color:var(--muted);display:grid;place-items:center}
-.modal-x:hover{background:rgba(15,23,42,.12)}
+.modal-x:hover{background:rgba(217,181,125,.2)}
 .modal-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
 .confirm-msg{font-size:14.5px;color:var(--text);padding:4px 2px 6px;line-height:1.7}
 .confirm-msg b{color:var(--danger)}
@@ -227,8 +241,8 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
 /* ---------- 轻提示 ---------- */
 #toastBox{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:200;display:flex;
   flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:max-content;max-width:92vw}
-.toast{padding:11px 20px;border-radius:14px;font-size:14px;font-weight:500;color:#fff;
-  background:rgba(15,23,42,.85);backdrop-filter:blur(12px);box-shadow:var(--shadow);
+.toast{padding:11px 20px;border-radius:14px;font-size:14px;font-weight:500;color:#F5EDDD;
+  background:rgba(20,17,12,.92);backdrop-filter:blur(12px);border:1px solid rgba(217,181,125,.25);box-shadow:var(--shadow);
   animation:toastIn .22s;max-width:92vw}
 .toast.ok{background:linear-gradient(135deg,rgba(5,150,105,.94),rgba(16,185,129,.94))}
 .toast.err{background:linear-gradient(135deg,rgba(220,38,38,.95),rgba(239,68,68,.95))}
@@ -236,13 +250,13 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
 
 /* ---------- 明细面板 ---------- */
 .detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px}
-.d-item{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.d-item{background:rgba(217,181,125,.05);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
 .d-item .k{font-size:11.5px;color:var(--faint);font-weight:600;margin-bottom:2px}
 .d-item .v{font-size:14px;font-weight:600;word-break:break-all}
 .sub-table-h{font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px;display:flex;align-items:center;gap:8px}
 .sub-table-h .spacer{flex:1}
-.note-box{background:rgba(255,255,255,.55);border:1px dashed var(--line2);border-radius:12px;
-  padding:10px 14px;font-size:13.5px;color:#475569;margin-top:10px;white-space:pre-wrap;word-break:break-word}
+.note-box{background:rgba(217,181,125,.04);border:1px dashed var(--line2);border-radius:12px;
+  padding:10px 14px;font-size:13.5px;color:var(--muted);margin-top:10px;white-space:pre-wrap;word-break:break-word}
 
 /* ---------- 列表卡（物业/房间/租客） ---------- */
 .tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
@@ -279,7 +293,7 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
   table.rsp,table.rsp tbody{display:block;width:100%}
   table.rsp thead{display:none}
   table.rsp tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line);border-radius:14px}
-  table.rsp tr:hover{background:rgba(255,255,255,.55)}
+  table.rsp tr:hover{background:rgba(217,181,125,.06)}
   table.rsp td{display:flex;justify-content:space-between;align-items:center;gap:14px;
     border:none;padding:5px 0;text-align:right}
   table.rsp td::before{content:attr(data-label);color:var(--muted);font-size:12.5px;font-weight:700;text-align:left}
@@ -309,9 +323,9 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
     </div>
     <button class="btn" id="loginBtn" style="width:100%;padding:11px">登 录</button>
     <div id="fileHint" class="hidden" style="margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.35);text-align:left">
-      <div style="font-size:13px;font-weight:600;margin-bottom:4px">📁 检测到已关联的本地数据文件</div>
-      <div class="t-dim" style="font-size:12px;margin-bottom:10px">点击授权读取，把文件中的最新数据载入浏览器（清缓存后数据不丢的保障）。</div>
-      <button class="btn sm" id="fileRestoreBtn">授权并读取数据文件</button>
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px">🗄️ 检测到已绑定的数据库文件</div>
+      <div class="t-dim" style="font-size:12px;margin-bottom:10px">点击授权读取，把 .sqlite 文件中的最新数据载入浏览器（清缓存后数据不丢的保障）。</div>
+      <button class="btn sm" id="fileRestoreBtn">授权并读取数据库文件</button>
       <button class="btn sm ghost" id="fileSkipBtn">暂不读取</button>
     </div>
     <div class="login-tip">默认总管理员：<b>admin</b> / <b>admin123</b>，登录后请在「设置」中修改密码</div>
@@ -356,7 +370,7 @@ table.tbl tr.total-row td{font-weight:700;background:rgba(99,102,241,.07);border
 /* ============================================================
    工具函数
    ============================================================ */
-const APP_VERSION = '1.1.0';
+const APP_VERSION = '1.2';
 const $  = (s, el) => (el || document).querySelector(s);
 const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
 function esc(s){ return String(s == null ? '' : s)
@@ -448,7 +462,7 @@ const DB = (function(){
    绑定一个本地 JSON 文件后，每笔改动自动写入磁盘：
    清浏览器缓存 / 站点数据不再丢数据，重新授权读取即可恢复。
    ============================================================ */
-const DataFile = (function(){
+const DBFile = (function(){
   const KV_KEY = 'datafile_handle';
   let handle = null, timer = null, flushing = false, dirty = false;
   const state = { lastError: null, lastSavedAt: null };
@@ -505,8 +519,8 @@ const DataFile = (function(){
     let h;
     try {
       h = await window.showSaveFilePicker({
-        suggestedName: '物业管理台账数据.json',
-        types: [{ description:'JSON 数据文件', accept:{ 'application/json':['.json'] } }],
+        suggestedName: '物业台账.sqlite',
+        types: [{ description:'数据库文件', accept:{ 'application/json':['.sqlite','.db','.json'] } }],
       });
     } catch(e){ return false; /* 用户取消选择 */ }
     handle = h;
@@ -556,31 +570,107 @@ const DataFile = (function(){
   const orig = DB[m];
   DB[m] = function(){
     const r = orig.apply(DB, arguments);
-    try { Promise.resolve(r).then(() => DataFile.scheduleFlush()).catch(() => {}); } catch(e){}
+    try { Promise.resolve(r).then(() => DBFile.scheduleFlush()).catch(() => {}); } catch(e){}
     return r;
   };
 });
 
 /* ============================================================
    认证与用户（PBKDF2-SHA256，格式 pbkdf2$iter$saltB64$hashB64）
+   非安全上下文（如 http://192.168.x.x 局域网访问）没有 crypto.subtle，
+   自动回退到纯 JS 实现的 PBKDF2-HMAC-SHA256，格式 sha256js$iter$...
+   两种格式互相兼容可校验，安全上下文登录时 sha256js 自动升级为 pbkdf2。
    ============================================================ */
 const PBKDF2_ITER = 60000;
+const JS_PBKDF2_ITER = 5000;
+const SUBTLE_OK = !!(window.crypto && window.crypto.subtle && window.crypto.subtle.deriveBits);
 function b64(buf){ const b = new Uint8Array(buf); let s = ''; b.forEach(v => s += String.fromCharCode(v)); return btoa(s); }
 function ub64(s){ const bin = atob(s); const b = new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) b[i] = bin.charCodeAt(i); return b; }
+
+/* —— 纯 JS SHA-256（回退用）—— */
+const _SK = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+function sha256Bytes(bytes){
+  const H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const len = bytes.length, bitLen = len * 8;
+  const padded = new Uint8Array((((len + 8) >> 6) + 1) << 6);
+  padded.set(bytes); padded[len] = 0x80;
+  const dv = new DataView(padded.buffer);
+  dv.setUint32(padded.length - 8, Math.floor(bitLen / 0x100000000));
+  dv.setUint32(padded.length - 4, bitLen >>> 0);
+  const w = new Int32Array(64);
+  for (let off = 0; off < padded.length; off += 64){
+    for (let i = 0; i < 16; i++) w[i] = dv.getInt32(off + i * 4);
+    for (let i = 16; i < 64; i++){
+      const a = w[i-15], b2 = w[i-2];
+      const s0 = ((a >>> 7) | (a << 25)) ^ ((a >>> 18) | (a << 14)) ^ (a >>> 3);
+      const s1 = ((b2 >>> 17) | (b2 << 15)) ^ ((b2 >>> 19) | (b2 << 13)) ^ (b2 >>> 10);
+      w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0;
+    }
+    let a = H[0], b = H[1], c = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+    for (let i = 0; i < 64; i++){
+      const S1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+      const t1 = (h + S1 + ((e & f) ^ (~e & g)) + _SK[i] + w[i]) | 0;
+      const S0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+      const t2 = (S0 + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+    }
+    H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0; H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0;
+    H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+  }
+  const out = new Uint8Array(32), odv = new DataView(out.buffer);
+  for (let i = 0; i < 8; i++) odv.setUint32(i * 4, H[i] >>> 0);
+  return out;
+}
+function hmacSha256(keyBytes, msgBytes){
+  let k = keyBytes;
+  if (k.length > 64) k = sha256Bytes(k);
+  const ki = new Uint8Array(64), ko = new Uint8Array(64);
+  ki.fill(0x36); ko.fill(0x5c);
+  for (let i = 0; i < k.length; i++){ ki[i] ^= k[i]; ko[i] ^= k[i]; }
+  const inner = new Uint8Array(64 + msgBytes.length);
+  inner.set(ki); inner.set(msgBytes, 64);
+  const outer = new Uint8Array(96);
+  outer.set(ko); outer.set(sha256Bytes(inner), 64);
+  return sha256Bytes(outer);
+}
+function pbkdf2Js(password, salt, iterations){
+  const pw = new TextEncoder().encode(password);
+  const sb = new Uint8Array(salt.length + 4);   /* PBKDF2 规范：盐后追加 4 字节块序号 INT(1)，dkLen=32 时仅 1 块 */
+  sb.set(salt); sb[salt.length] = 0; sb[salt.length+1] = 0; sb[salt.length+2] = 0; sb[salt.length+3] = 1;
+  let u = hmacSha256(pw, sb);
+  const acc = new Uint8Array(u);
+  for (let i = 1; i < iterations; i++){
+    u = hmacSha256(pw, u);
+    for (let j = 0; j < 32; j++) acc[j] ^= u[j];
+  }
+  return acc;
+}
 async function hashPassword(password, saltB64){
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
   const salt = saltB64 ? ub64(saltB64) : crypto.getRandomValues(new Uint8Array(16));
-  const bits = await crypto.subtle.deriveBits(
-    { name:'PBKDF2', hash:'SHA-256', salt, iterations: PBKDF2_ITER }, key, 256);
-  return 'pbkdf2$' + PBKDF2_ITER + '$' + b64(salt.buffer) + '$' + b64(bits);
+  if (SUBTLE_OK){
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits(
+      { name:'PBKDF2', hash:'SHA-256', salt, iterations: PBKDF2_ITER }, key, 256);
+    return 'pbkdf2$' + PBKDF2_ITER + '$' + b64(salt.buffer) + '$' + b64(bits);
+  }
+  const bits = pbkdf2Js(password, salt, JS_PBKDF2_ITER);
+  return 'sha256js$' + JS_PBKDF2_ITER + '$' + b64(salt.buffer) + '$' + b64(bits);
 }
 async function verifyPassword(password, stored){
   try {
     const p = String(stored || '').split('$');
     if (p.length !== 4) return false;
-    const h = await hashPassword(password, p[2]);
-    return h === stored;
+    const salt = ub64(p[2]);
+    if (p[0] === 'pbkdf2' && SUBTLE_OK){
+      const h = await hashPassword(password, p[2]);
+      return h === stored;
+    }
+    if ((p[0] === 'pbkdf2' || p[0] === 'sha256js') && !SUBTLE_OK){
+      const iter = parseInt(p[1], 10) || PBKDF2_ITER;
+      return b64(pbkdf2Js(password, salt, iter)) === p[3];
+    }
+    return false;
   } catch(e){ return false; }
 }
 
@@ -616,6 +706,10 @@ async function doLogin(userName, password){
   const u = users.find(x => x.userName.toLowerCase() === String(userName).trim().toLowerCase() && x.isActive !== false);
   if (!u) return '账号不存在或已停用。';
   if (!(await verifyPassword(password, u.passwordHash))) return '密码错误，请重试。';
+  /* 回退哈希自动升级：安全上下文里把 sha256js 格式升级为标准 PBKDF2 */
+  if (SUBTLE_OK && String(u.passwordHash || '').indexOf('sha256js$') === 0){
+    try { u.passwordHash = await hashPassword(password); } catch(e){}
+  }
   u.lastLoginAt = nowIso();
   await DB.put('users', u);
   session = { userId:u.id, userName:u.userName, displayName:u.displayName, isAdmin:!!u.isAdmin,
@@ -1175,6 +1269,44 @@ RENDER.leases = async function(){
   }));
 };
 
+/* 租期年数 / 租金递增辅助 */
+function endFromYears(startStr, n){          /* 起租 + n 年 - 1 天 */
+  const d = new Date(startStr + 'T00:00:00');
+  d.setFullYear(d.getFullYear() + n);
+  d.setDate(d.getDate() - 1);
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function leaseTermYears(startStr, endStr){  /* 到期日恰为 起租+N年-1天 时返回 N（1-20），否则 0 */
+  for (let i = 1; i <= 20; i++) if (endFromYears(startStr, i) === endStr) return i;
+  return 0;
+}
+function leaseYearOptions(l){
+  const opts = [{ v:'lt', t:'长期（无固定期限）' }];
+  for (let i = 1; i <= 20; i++) opts.push({ v:String(i), t:i + ' 年' });
+  opts.push({ v:'custom', t:'自定义日期' });
+  let sel = 'lt';
+  if (l && l.id){
+    if (!l.endDate) sel = 'lt';
+    else { const n = leaseTermYears(l.startDate, l.endDate); sel = n ? String(n) : 'custom'; }
+  }
+  return opts.map(o => '<option value="' + o.v + '"' + (o.v === sel ? ' selected' : '') + '>' + o.t + '</option>').join('');
+}
+function escHint(mode){
+  if (mode === 1) return { lbl:'每年递增比例（%）', hint:'如填 3：第二年起每月租金 = 上年 × 1.03，逐年复利' };
+  if (mode === 2) return { lbl:'每年递增金额（元/月）', hint:'如填 100：第二年起每月租金 = 上年 + 100 元' };
+  return { lbl:'每年递增', hint:'选择递增方式后填写' };
+}
+/* 某自然月的月租（含逐年递增；未配置递增时=租金原值） */
+function escalatedMonthlyRent(lease, y, m){
+  const base = lease.rentAmount || 0;
+  const mode = lease.escMode || 0, val = lease.escValue || 0;
+  if (!mode || !val) return r2(base);
+  let diff = monthIdx(y, m) - monthIdx(+lease.startDate.slice(0,4), +lease.startDate.slice(5,7));
+  if (diff < 0) diff = 0;
+  const yi = Math.floor(diff / 12);
+  return r2(mode === 1 ? base * Math.pow(1 + val / 100, yi) : base + val * yi);
+}
+
 function leaseForm(l){
   const isNew = !l;
   l = l || { roomId:0, tenantId:0, startDate:todayStr(), endDate:'', rentAmount:0, houseDeposit:0, utilityDeposit:0, paymentDay:1, paymentCycle:0, note:'' };
@@ -1189,8 +1321,14 @@ function leaseForm(l){
       '<div class="field"><label>租客 <span class="req">*</span></label><select class="select" id="f_tenant">' +
         data.tenants.map(t => '<option value="' + t.id + '"' + (t.id === (l.tenantId || data.tenants[0].id) ? ' selected' : '') + '>' + esc(t.name) + '</option>').join('') + '</select></div>' +
       '<div class="field"><label>起租日期 <span class="req">*</span></label><input class="input" id="f_start" type="date" value="' + fmtDate(l.startDate) + '"></div>' +
-      '<div class="field"><label>到期日期（留空=长期）</label><input class="input" id="f_end" type="date" value="' + (l.endDate ? fmtDate(l.endDate) : '') + '"></div>' +
+      '<div class="field"><label>租期年数</label><select class="select" id="f_years">' + leaseYearOptions(l) + '</select><div class="input-hint">按年选择，自动算出到期日</div></div>' +
+      '<div class="field"><label>到期日期</label><input class="input" id="f_end" type="date" value="' + (l.endDate ? fmtDate(l.endDate) : '') + '"><div class="input-hint" id="f_endHint"></div></div>' +
       '<div class="field"><label>每月租金（元） <span class="req">*</span></label><input class="input" id="f_rent" type="number" step="0.01" min="0" value="' + r2(l.rentAmount) + '"></div>' +
+      '<div class="field"><label>租金递增</label><select class="select" id="f_esc">' +
+        '<option value="0"' + (!(l.escMode > 0) ? ' selected' : '') + '>不递增</option>' +
+        '<option value="1"' + (l.escMode === 1 ? ' selected' : '') + '>按比例（每年 +x%）</option>' +
+        '<option value="2"' + (l.escMode === 2 ? ' selected' : '') + '>按金额（每年 +x 元）</option></select></div>' +
+      '<div class="field"><label id="f_escLbl">每年递增</label><input class="input" id="f_escval" type="number" step="0.01" min="0" value="' + (l.escMode > 0 ? (l.escValue || 0) : '') + '"' + (!(l.escMode > 0) ? ' disabled' : '') + '><div class="input-hint" id="f_escHint"></div></div>' +
       '<div class="field"><label>付租周期</label><select class="select" id="f_cycle">' +
         '<option value="0"' + (l.paymentCycle === 0 ? ' selected' : '') + '>月付（每月一张账单）</option>' +
         '<option value="1"' + (l.paymentCycle === 1 ? ' selected' : '') + '>季付（三个月一张账单）</option></select></div>' +
@@ -1204,16 +1342,19 @@ function leaseForm(l){
       const start = fv(mask, '#f_start'), end = fv(mask, '#f_end');
       const rent = fn(mask, '#f_rent');
       const day = Math.min(31, Math.max(1, Math.round(fn(mask, '#f_day') || 1)));
+      const escMode = +fv(mask, '#f_esc'), escValue = r2(fn(mask, '#f_escval') || 0);
       if (!start) return '请选择起租日期。';
       if (end && end < start) return '到期日期不能早于起租日期。';
       if (rent == null || rent < 0) return '请填写有效的每月租金（不能为负）。';
+      if (escMode && escValue <= 0) return '请填写有效的每年递增' + (escMode === 1 ? '比例' : '金额') + '。';
       const roomId = +fv(mask, '#f_room'), tenantId = +fv(mask, '#f_tenant');
       /* 同一房间同时只允许一份生效租约 */
       const activeOnRoom = data.leases.find(o => o.roomId === roomId && o.status === 0 && (isNew || o.id !== l.id));
       if (activeOnRoom) return '该房间已有生效中的租约（' + esc(leaseLabel(activeOnRoom)) + '），请先终止原租约。';
       const rec = { roomId, tenantId, startDate:start, endDate:end || null, rentAmount:r2(rent),
         houseDeposit:r2(fn(mask,'#f_hdep') || 0), utilityDeposit:r2(fn(mask,'#f_udep') || 0),
-        paymentDay:day, paymentCycle:+fv(mask,'#f_cycle'), note:fv(mask,'#f_note') || null };
+        paymentDay:day, paymentCycle:+fv(mask,'#f_cycle'),
+        escMode:escMode || 0, escValue:escMode ? escValue : 0, note:fv(mask,'#f_note') || null };
       if (isNew) await DB.put('leases', Object.assign({ status:0, createdAt: nowIso() }, rec));
       else await DB.put('leases', Object.assign({}, l, rec));
       await refreshAfterSave(); toast('已保存，租约会按周期自动出账', 'ok'); RENDER.leases(); return null;
@@ -1226,6 +1367,28 @@ function leaseForm(l){
   };
   const mask0 = $('#fmForm').closest('.modal-mask');
   ['#f_hdep','#f_udep'].forEach(s => $(s, mask0).addEventListener('input', upd)); upd();
+  /* 租期年数 → 到期日联动 */
+  const syncEnd = () => {
+    const mode = $('#f_years', mask0).value, start = $('#f_start', mask0).value;
+    const fEnd = $('#f_end', mask0), hint = $('#f_endHint', mask0);
+    if (mode === 'custom'){ fEnd.disabled = false; hint.textContent = '可手动选择任意到期日'; return; }
+    if (mode === 'lt'){ fEnd.disabled = true; fEnd.value = ''; hint.textContent = '长期租约，无固定到期日'; return; }
+    const n = +mode;
+    fEnd.disabled = true;
+    fEnd.value = start ? endFromYears(start, n) : '';
+    hint.textContent = start ? ('自动计算：起租 + ' + n + ' 年 − 1 天') : '请先选择起租日期';
+  };
+  /* 递增方式 → 递增值联动 */
+  const syncEsc = () => {
+    const mode = +$('#f_esc', mask0).value, info = escHint(mode);
+    $('#f_escLbl', mask0).textContent = info.lbl;
+    $('#f_escHint', mask0).textContent = info.hint;
+    const v = $('#f_escval', mask0); v.disabled = !mode; if (!mode) v.value = '';
+  };
+  $('#f_years', mask0).addEventListener('change', syncEnd);
+  $('#f_start', mask0).addEventListener('change', syncEnd);
+  $('#f_esc', mask0).addEventListener('change', syncEsc);
+  syncEnd(); syncEsc();
 }
 
 /* 租约详情 */
@@ -1240,6 +1403,7 @@ function openLeaseDetail(id){
       dItem('状态', l.status === 0 ? '生效中' : '已终止') +
       dItem('租期', fmtDate(l.startDate) + ' ~ ' + (l.endDate ? fmtDate(l.endDate) : '长期')) +
       dItem('每月租金', money(l.rentAmount)) +
+      dItem('租金递增', l.escMode === 1 ? ('每年 +' + (l.escValue || 0) + '%（按比例复利）') : l.escMode === 2 ? ('每年 +' + (l.escValue || 0) + ' 元/月') : '不递增') +
       dItem('押金合计', money(r2((l.houseDeposit||0)+(l.utilityDeposit||0))) + '（房屋 ' + money(l.houseDeposit||0) + ' / 水电 ' + money(l.utilityDeposit||0) + '）') +
       dItem('付租方式', CYCLE_NAMES[l.paymentCycle] + ' · 每月 ' + l.paymentDay + ' 号') +
       dItem('租客联系方式', esc((data.tenants.find(t => t.id === l.tenantId) || {}).phone || '—')) +
@@ -1276,7 +1440,7 @@ function tryGetPeriod(lease, y, m){
   if (lease.paymentCycle === 0){                       /* 月付 */
     if (monthEnd < sd) return null;
     if (ed && monthStart > ed) return null;
-    return { periodStart:monthStart, periodEnd:monthEnd, dueDate:dueDateOf(y, m, lease.paymentDay), rentAmount:r2(lease.rentAmount) };
+    return { periodStart:monthStart, periodEnd:monthEnd, dueDate:dueDateOf(y, m, lease.paymentDay), rentAmount:escalatedMonthlyRent(lease, y, m) };
   }
   const delta = monthIdx(y, m) - monthIdx(+sd.slice(0,4), +sd.slice(5,7));   /* 季付 */
   if (delta < 0 || delta % 3 !== 0) return null;
@@ -1284,7 +1448,9 @@ function tryGetPeriod(lease, y, m){
   const periodEnd = eY + '-' + pad2(eM) + '-' + pad2(daysInMonth(eY, eM));
   if (periodEnd < sd) return null;
   if (ed && monthStart > ed) return null;
-  return { periodStart:monthStart, periodEnd:periodEnd, dueDate:dueDateOf(y, m, lease.paymentDay), rentAmount:r2(lease.rentAmount * 3) };
+  let q = 0;                                           /* 季付金额 = 跨入各月月租之和（含逐年递增） */
+  for (let k = 0; k < 3; k++){ let mm = m + k, yy = y; if (mm > 12){ mm -= 12; yy++; } q += escalatedMonthlyRent(lease, yy, mm); }
+  return { periodStart:monthStart, periodEnd:periodEnd, dueDate:dueDateOf(y, m, lease.paymentDay), rentAmount:r2(q) };
 }
 
 /* 为所有生效租约补齐从起租月到指定日的全部账单（幂等），返回新建数 */
@@ -1405,7 +1571,7 @@ RENDER.bills = async function(){
   const rows = list.map(b => {
     const total = totalOf(b), paid = paidOf(b.id), remain = r2(Math.max(0, total - paid));
     return '<tr>' +
-      '<td data-label="选择" class="act-cell"><input type="checkbox" data-sel="' + b.id + '"' + (sel.has(b.id) ? ' checked' : '') + ' style="accent-color:#6366f1;width:16px;height:16px"></td>' +
+      '<td data-label="选择" class="act-cell"><input type="checkbox" data-sel="' + b.id + '"' + (sel.has(b.id) ? ' checked' : '') + ' style="accent-color:#C9A05E;width:16px;height:16px"></td>' +
       '<td data-label="房间" class="t-primary clickable" data-open="' + b.id + '">' + esc(roomName(b.roomId)) +
         '<div class="t-dim">' + esc(tenantName(b.tenantId)) + '</div></td>' +
       '<td data-label="账期">' + fmtDate(b.periodStart).slice(0,7) + (b.paymentCycleHint || '') +
@@ -1457,19 +1623,23 @@ function batchSettleDialog(){
     fields: '<div class="form-grid">' +
       '<div class="field"><label>收款方式</label><select class="select" id="f_method">' +
         Object.keys(METHOD_NAMES).map(k => '<option value="' + k + '">' + METHOD_NAMES[k] + '</option>').join('') + '</select></div>' +
+      '<div class="field"><label>收款日期模式</label><select class="select" id="f_dmode">' +
+        '<option value="0">统一日期（全部同一天）</option>' +
+        '<option value="1">账单当月（按各账单到期日）</option></select></div>' +
       '<div class="field"><label>收款日期</label><input class="input" id="f_date" type="date" value="' + todayStr() + '"></div>' +
-    '</div><div class="input-hint">将按每张账单的剩余应收逐张登记收款（备注「批量结清」）。</div>',
+    '</div><div class="input-hint" id="bsHint">将按每张账单的剩余应收逐张登记收款，全部使用同一收款日期（备注「批量结清」）。</div>',
     okText:'立即结清',
     onSave: async mask => {
-      const method = +fv(mask, '#f_method'), date = fv(mask, '#f_date');
-      if (!date) return '请选择收款日期。';
+      const method = +fv(mask, '#f_method'), dmode = +fv(mask, '#f_dmode'), date = fv(mask, '#f_date');
+      if (dmode === 0 && !date) return '请选择收款日期。';
       let settled = 0, total = 0;
       for (const id of ids){
         const b = data.bills.find(x => x.id === id);
         if (!b) continue;
         const remain = r2(totalOf(b) - paidOf(b.id));
         if (remain <= 0.001) continue;
-        await DB.put('payments', { billId:b.id, amount:remain, paidAt:date, method, note:'批量结清', createdAt:nowIso() });
+        const paidAt = dmode === 1 ? (b.dueDate || date || todayStr()) : date;   /* 账单当月=各账单到期日 */
+        await DB.put('payments', { billId:b.id, amount:remain, paidAt, method, note:'批量结清', createdAt:nowIso() });
         await recalcBill(b.id);
         settled++; total = r2(total + remain);
       }
@@ -1478,6 +1648,15 @@ function batchSettleDialog(){
       toast('已结清 ' + settled + ' 张账单，共收款 ' + money(total), 'ok');
       RENDER.bills(); return null;
     },
+  });
+  /* 收款日期模式联动：账单当月时禁用手动日期 */
+  const m0 = $('#fmForm').closest('.modal-mask');
+  $('#f_dmode', m0).addEventListener('change', e => {
+    const one = +e.target.value === 1;
+    $('#f_date', m0).disabled = one;
+    $('#bsHint', m0).textContent = one
+      ? '将按每张账单各自的到期日（即账单当月）登记收款日期。'
+      : '将按每张账单的剩余应收逐张登记收款，全部使用同一收款日期（备注「批量结清」）。';
   });
 }
 
@@ -1858,6 +2037,8 @@ function knowForm(k){
 /* ============================================================
    报表
    ============================================================ */
+var rptMonthPage = 0;   /* 按月份汇总翻页：0 = 最近 12 个月 */
+
 RENDER.reports = async function(){
   await loadAll();
   const today = todayStr();
@@ -1877,17 +2058,23 @@ RENDER.reports = async function(){
     byMonth[ym].count++; byMonth[ym].total = r2(byMonth[ym].total + t);
     byMonth[ym].paid = r2(byMonth[ym].paid + p); byMonth[ym].remain = r2(byMonth[ym].total - byMonth[ym].paid);
   });
-  const monthRows = Object.keys(byMonth).sort().reverse().map(ym => {
+  const monthsDesc = Object.keys(byMonth).sort().reverse();
+  const monthTotal = monthsDesc.reduce((a, ym) => {
+    const m = byMonth[ym];
+    return { count:a.count + m.count, total:r2(a.total + m.total), paid:r2(a.paid + m.paid), remain:r2(a.remain + m.remain) };
+  }, { count:0, total:0, paid:0, remain:0 });
+  /* 只显示最近 12 个月，可翻页（由近到远） */
+  const M_PAGE = 12;
+  const mPages = Math.max(1, Math.ceil(monthsDesc.length / M_PAGE));
+  if (rptMonthPage >= mPages) rptMonthPage = mPages - 1;
+  if (rptMonthPage < 0) rptMonthPage = 0;
+  const monthRows = monthsDesc.slice(rptMonthPage * M_PAGE, rptMonthPage * M_PAGE + M_PAGE).map(ym => {
     const m = byMonth[ym];
     const rate = m.total > 0 ? Math.round(m.paid / m.total * 100) : 0;
     return '<tr><td data-label="月份" class="t-primary">' + ym + '</td><td data-label="账单数" class="num">' + m.count + '</td>' +
       '<td data-label="应收" class="num">' + money(m.total) + '</td><td data-label="已收" class="num">' + money(m.paid) + '</td>' +
       '<td data-label="未收" class="num">' + money(m.remain) + '</td><td data-label="收款率" class="num">' + rate + '%</td></tr>';
   }).join('');
-  const monthTotal = Object.keys(byMonth).sort().reverse().reduce((a, ym) => {
-    const m = byMonth[ym];
-    return { count:a.count + m.count, total:r2(a.total + m.total), paid:r2(a.paid + m.paid), remain:r2(a.remain + m.remain) };
-  }, { count:0, total:0, paid:0, remain:0 });
   const monthRate = monthTotal.total > 0 ? Math.round(monthTotal.paid / monthTotal.total * 100) : 0;
 
   /* 按物业汇总 */
@@ -1937,20 +2124,30 @@ RENDER.reports = async function(){
         '<td data-label="备注" class="t-dim">' + esc(b.note || '—') + '</td></tr>').join('') +
       '<tr class="total-row"><td data-label="合计" colspan="3">人工补录合计（' + manual.length + ' 张）</td>' +
       '<td data-label="应收" class="num">' + money(manualTotal) + '</td><td></td></tr></tbody></table></div></div>' : '') +
-    '<div class="section glass card"><div class="sec-head"><h3>📅 按月份汇总</h3></div>' +
-      '<div class="tbl-wrap"><table class="tbl rsp"><thead><tr><th>月份</th><th class="num">账单数</th><th class="num">应收</th><th class="num">已收</th><th class="num">未收</th><th class="num">收款率</th></tr></thead><tbody>' +
-      monthRows + '<tr class="total-row"><td data-label="合计">合计</td><td data-label="账单数" class="num">' + monthTotal.count + '</td>' +
-      '<td data-label="应收" class="num">' + money(monthTotal.total) + '</td><td data-label="已收" class="num">' + money(monthTotal.paid) + '</td>' +
-      '<td data-label="未收" class="num">' + money(monthTotal.remain) + '</td><td data-label="收款率" class="num">' + monthRate + '%</td></tr>' +
-      '</tbody></table></div>' + (monthRows ? '' : emptyBox('📊','还没有账单数据')) + '</div>' +
     '<div class="section glass card"><div class="sec-head"><h3>🏢 按物业汇总</h3></div>' +
       '<div class="tbl-wrap"><table class="tbl rsp"><thead><tr><th>物业</th><th class="num">账单数</th><th class="num">应收</th><th class="num">已收</th><th class="num">未收</th><th class="num">收款率</th></tr></thead><tbody>' +
       (propRows || '<tr><td colspan="6" class="t-dim" style="text-align:center;padding:14px">暂无数据</td></tr>') + '</tbody></table></div></div>' +
+    '<div class="section glass card"><div class="sec-head"><h3>📅 按月份汇总</h3><span class="hint">每页 12 个月 · 由近到远</span></div>' +
+      '<div class="tbl-wrap"><table class="tbl rsp"><thead><tr><th>月份</th><th class="num">账单数</th><th class="num">应收</th><th class="num">已收</th><th class="num">未收</th><th class="num">收款率</th></tr></thead><tbody>' +
+      monthRows + '<tr class="total-row"><td data-label="合计">合计（全部 ' + monthsDesc.length + ' 个月）</td><td data-label="账单数" class="num">' + monthTotal.count + '</td>' +
+      '<td data-label="应收" class="num">' + money(monthTotal.total) + '</td><td data-label="已收" class="num">' + money(monthTotal.paid) + '</td>' +
+      '<td data-label="未收" class="num">' + money(monthTotal.remain) + '</td><td data-label="收款率" class="num">' + monthRate + '%</td></tr>' +
+      '</tbody></table></div>' +
+      (monthsDesc.length
+        ? '<div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:10px 4px 0">' +
+          '<span class="hint">第 ' + (rptMonthPage + 1) + ' / ' + mPages + ' 页</span>' +
+          '<button class="btn sm ghost" id="rptPrev"' + (rptMonthPage <= 0 ? ' disabled' : '') + '>‹ 上页</button>' +
+          '<button class="btn sm ghost" id="rptNext"' + (rptMonthPage >= mPages - 1 ? ' disabled' : '') + '>下页 ›</button></div>'
+        : emptyBox('📊','还没有账单数据')) + '</div>' +
     '<div class="section glass card"><div class="sec-head"><h3>⏰ 逾期明细</h3><span class="hint">截止日已过且未付清</span></div>' +
       '<div class="tbl-wrap"><table class="tbl rsp"><thead><tr><th>物业 · 房间</th><th>租客</th><th>账期</th><th>到期日</th><th class="num">应收</th><th class="num">已收</th><th class="num">未收</th><th class="num">逾期</th></tr></thead><tbody>' +
       (overdueRows || '<tr><td colspan="8" class="t-dim" style="text-align:center;padding:14px">没有逾期账单 🎉</td></tr>') + '</tbody></table></div></div>';
 
   $$('#pageRoot tr.clickable, #pageRoot tbody tr').forEach(() => {});
+  /* 月份汇总翻页 */
+  const rp = $('#rptPrev'), rn = $('#rptNext');
+  if (rp) rp.addEventListener('click', () => { if (rptMonthPage > 0){ rptMonthPage--; RENDER.reports(); } });
+  if (rn) rn.addEventListener('click', () => { if (rptMonthPage < mPages - 1){ rptMonthPage++; RENDER.reports(); } });
   /* 逾期行点击查看账单 */
   $$('#pageRoot .section:last-child tbody tr').forEach((tr, idx) => {
     if (!overdueList[idx]) return;
@@ -2079,18 +2276,24 @@ RENDER.settings = async function(){
     '</div>' +
     '<div class="section glass card">' +
       '<div class="sec-head"><h3>💾 数据备份与恢复</h3><span class="hint">所有数据保存在本机浏览器</span></div>' +
-      '<p class="t-dim" style="margin-bottom:12px">数据存放在当前浏览器的本地数据库中（与该文件的打开位置绑定）。建议定期导出 JSON 备份文件，换电脑 / 换浏览器时可通过导入恢复。详见随附的《使用说明》。</p>' +
-      '<button class="btn ok" id="exportBtn">⬇️ 导出全部数据（JSON 备份）</button> ' +
-      '<button class="btn ghost" id="importBtn">⬆️ 从备份恢复（导入）</button>' +
+      '<div id="qbStats" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:12px"></div>' +
+      '<div id="qbStatus" style="font-size:13px;margin-bottom:12px"></div>' +
+      '<button class="btn ok" id="quickBackup" style="width:100%;padding:14px;font-size:16px;font-weight:600">🚀 一键备份</button> ' +
+      '<div style="display:flex;gap:8px;margin-top:8px">' +
+      '<button class="btn sm ghost" id="exportBtn" style="flex:1">⬇️ 导出 JSON</button>' +
+      '<button class="btn sm ghost" id="importBtn" style="flex:1">⬆️ 从备份恢复</button>' +
+      '</div>' +
       '<input type="file" id="importFile" accept=".json,application/json" class="hidden">' +
     '</div>' +
     '<div class="section glass card">' +
-      '<div class="sec-head"><h3>📁 数据文件（防清缓存）</h3><span class="hint">' + (DataFile.supported() ? '电脑版 Chrome / Edge 可用' : '当前浏览器不支持，建议电脑版 Chrome / Edge') + '</span></div>' +
-      '<p class="t-dim" style="margin-bottom:12px">关联一个本地 JSON 数据文件后，<b>每笔改动都会自动保存</b>到该文件。即使清除了浏览器缓存 / 站点数据，文件仍在电脑上，下次打开时点击「授权并读取」即可完整恢复，数据不丢。</p>' +
-      '<div id="dfStatus" style="font-size:13px;margin-bottom:12px"></div>' +
-      '<button class="btn" id="dfBind">📁 ' + (DataFile.handle ? '更换数据文件' : '绑定数据文件（自动保存）') + '</button> ' +
-      (DataFile.handle ? '<button class="btn ok" id="dfSave">⬇️ 立即保存到文件</button> ' : '') +
-      (DataFile.handle ? '<button class="btn danger" id="dfUnbind">解除关联</button>' : '') +
+      '<div class="sec-head"><h3>🗄️ 独立数据库文件</h3><span class="hint">' + (DBFile.supported() ? '电脑版 Chrome / Edge 可用' : '当前浏览器不支持，建议电脑版 Chrome / Edge') + '</span></div>' +
+      '<p class="t-dim" style="margin-bottom:12px">绑定一个本地 <b>.sqlite</b> 数据库文件后，<b>每笔改动自动写入</b>。清除浏览器缓存 / 站点数据都不会丢数据。换电脑 / 换浏览器，只需把 HTML + 这个 .sqlite 文件一起拷过去，打开时点「授权并读取」即可恢复。</p>' +
+      '<div id="dbfStatus" style="font-size:13px;margin-bottom:12px"></div>' +
+      '<button class="btn" id="dbfBind">🗄️ ' + (DBFile.handle ? '更换数据库文件' : '选择数据库文件（自动保存）') + '</button> ' +
+      (DBFile.handle ? '<button class="btn ok" id="dbfSave">⬇️ 立即保存</button> ' : '') +
+      (DBFile.handle ? '<button class="btn ghost" id="dbfReload">🔄 从文件重新加载</button> ' : '') +
+      (DBFile.handle ? '<button class="btn danger" id="dbfUnbind">解除绑定</button>' : '') +
+      (!DBFile.handle ? '<button class="btn sm ghost" id="dbfImport">📤 从零创建（或选择已有文件）</button>' : '') +
     '</div>' +
     '<div class="t-dim" style="text-align:center;padding:6px 0 2px">物业管理台账 · HTML 单文件版 v' + APP_VERSION + ' · 数据 100% 本地存储</div>';
 
@@ -2129,30 +2332,68 @@ RENDER.settings = async function(){
     $('#p_old').value = $('#p_new').value = $('#p_new2').value = '';
     toast('密码已修改，下次登录请使用新密码', 'ok');
   });
-  /* 数据文件状态与操作 */
-  const st = DataFile.state;
-  $('#dfStatus').innerHTML = !DataFile.handle
-    ? '<span style="color:var(--warn,#d97706)">⚠️ 未绑定：数据仅保存在浏览器中，清除缓存 / 站点数据会丢失（请务必定期导出备份）。</span>'
-    : '<span style="color:var(--ok,#059669)">✅ 已关联数据文件：' + esc(DataFile.handle.name || '物业管理台账数据.json') +
-      (st.lastError ? '</span><br><span style="color:#dc2626">上次保存失败：' + esc(st.lastError) + '</span>'
-                    : (st.lastSavedAt ? ' · 上次保存 ' + esc(st.lastSavedAt.toLocaleTimeString('zh-CN')) : '</span>')) +
-      '<br><span class="t-dim" style="font-size:12px">改动约 1 秒后自动写入该文件；重新打开页面时在登录页点「授权并读取」即可载入。</span>';
-  $('#dfBind').addEventListener('click', async () => {
-    const okB = await DataFile.bind();
-    if (okB){ toast('已关联数据文件，之后每笔改动会自动保存到该文件', 'ok'); RENDER.settings(); }
+  /* 数据库文件卡片：状态 + 事件绑定 */
+  let dbfInfo = '';
+  if (DBFile.handle){
+    try {
+      const f = await DBFile.handle.getFile();
+      const sz = f.size < 1024 ? f.size + ' B' : f.size < 1048576 ? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(2)+' MB';
+      const mt = new Date(f.lastModified).toLocaleString('zh-CN', { hour12:false });
+      dbfInfo = '文件：<b>' + esc(DBFile.handle.name) + '</b> · ' + sz + ' · 修改 ' + esc(mt);
+    } catch(e){ dbfInfo = '文件：' + esc(DBFile.handle.name) + ' · （未授权读取）'; }
+  }
+  $('#dbfStatus').innerHTML = DBFile.handle
+    ? '<span style="color:var(--ok,#059669)">✅ 已绑定</span> ' + dbfInfo + '<br>' +
+      (DBFile.state.lastError
+        ? '<span style="color:#dc2626">⚠️ 上次保存失败：' + esc(DBFile.state.lastError) + '（可能需要重新授权）</span>'
+        : '<span class="t-dim" style="font-size:12px">每笔改动约 1 秒后自动写入该文件；启动时自动从中读取恢复。</span>')
+    : '<span style="color:var(--warn,#d97706)">⚠️ 未绑定数据库文件：数据仅存浏览器 IndexedDB，清缓存会丢失。建议点下方按钮选择一个 .sqlite 文件。</span>';
+
+  $('#dbfBind').addEventListener('click', async () => {
+    const okB = await DBFile.bind();
+    if (okB){ toast('已绑定数据库文件，之后每笔改动自动写入', 'ok'); RENDER.settings(); }
   });
-  const dfSave = $('#dfSave');
-  if (dfSave) dfSave.addEventListener('click', async () => {
-    if (!(await DataFile.ensurePerm())) return toast('未获得文件写入授权。', 'err');
-    await DataFile.flush(true);
-    toast(DataFile.state.lastError ? ('保存失败：' + DataFile.state.lastError) : '已保存到数据文件', DataFile.state.lastError ? 'err' : 'ok');
+  const dbfSave = $('#dbfSave');
+  if (dbfSave) dbfSave.addEventListener('click', async () => {
+    if (!(await DBFile.ensurePerm())) return toast('未获得文件写入授权。', 'err');
+    await DBFile.flush(true);
+    toast(DBFile.state.lastError ? ('保存失败：' + DBFile.state.lastError) : '已保存到数据库文件', DBFile.state.lastError ? 'err' : 'ok');
     RENDER.settings();
   });
-  const dfUnbind = $('#dfUnbind');
-  if (dfUnbind) dfUnbind.addEventListener('click', async () => {
-    if (!(await confirmBox('解除关联后，数据将继续保存在浏览器中，但不再自动写入数据文件（文件本身不会被删除）。确定解除吗？', { title:'解除数据文件', okText:'解除' }))) return;
-    await DataFile.unbind(); toast('已解除数据文件关联', 'ok'); RENDER.settings();
+  const dbfReload = $('#dbfReload');
+  if (dbfReload) dbfReload.addEventListener('click', async () => {
+    const ok = await confirmBox('将从数据库文件重新加载数据（覆盖当前浏览器中的数据），确定继续吗？', { okDanger:true, okText:'覆盖加载', title:'从数据库文件恢复' });
+    if (!ok) return;
+    const res = await DBFile.readAndApply();
+    if (!res.ok) return toast(res.msg, 'err');
+    await loadAll();
+    toast('已从数据库文件加载（' + res.data.properties.length + ' 物业 / ' + res.data.bills.length + ' 账单）', 'ok');
+    RENDER.settings();
   });
+  const dbfUnbind = $('#dbfUnbind');
+  if (dbfUnbind) dbfUnbind.addEventListener('click', async () => {
+    if (!(await confirmBox('解除绑定后，数据将继续保存在浏览器中，但不再自动写入数据库文件（文件本身不会被删除）。确定解除吗？', { title:'解除绑定', okText:'解除' }))) return;
+    await DBFile.unbind(); toast('已解除数据库文件绑定', 'ok'); RENDER.settings();
+  });
+  const dbfImport = $('#dbfImport');
+  if (dbfImport) dbfImport.addEventListener('click', async () => {
+    toast('请点「选择数据库文件（自动保存）」按钮选择一个 .sqlite 文件', 'info');
+  });
+  /* 一键备份区域：数据量统计 + 最近备份时间 */
+  const lastBak = await DB.kvGet('lastBackupAt', null);
+  const cnt = (k) => (data[k] || []).length;
+  $('#qbStats').innerHTML = [
+    ['物业', cnt('properties')], ['房间', cnt('rooms')], ['租客', cnt('tenants')],
+    ['租约', cnt('leases')], ['账单', cnt('bills')], ['杂费', cnt('billItems')],
+    ['收款', cnt('payments')], ['经验', cnt('knowledge')], ['账号', cnt('users')],
+  ].map(([n,v]) => '<span class="chip" style="padding:2px 8px">' + v + ' ' + n + '</span>').join('');
+  $('#qbStatus').innerHTML = lastBak
+    ? '<span style="color:var(--ok,#059669)">✅ 最近备份：' + esc(lastBak.replace('T',' ').slice(0,16)) +
+      (DBFile.handle ? ' · 数据文件已关联，每笔改动自动落盘' : '') + '</span>'
+    : (DBFile.handle
+        ? '<span style="color:var(--ok,#059669)">✅ 数据文件已关联，每笔改动自动落盘</span>'
+        : '<span style="color:var(--warn,#d97706)">⚠️ 尚未备份过，数据仅存浏览器中，清缓存会丢失</span>');
+  $('#quickBackup').addEventListener('click', quickBackup);
   $('#exportBtn').addEventListener('click', exportData);
   $('#importBtn').addEventListener('click', () => $('#importFile').click());
   $('#importFile').addEventListener('change', e => {
@@ -2163,6 +2404,25 @@ RENDER.settings = async function(){
 };
 
 /* 导出 / 导入 */
+async function quickBackup(){
+  await loadAll();
+  const kv = {};
+  (await DB.all('kv')).forEach(r => { if (r.key !== 'pl_session') kv[r.key] = r.value; });
+  const now = new Date();
+  const snapshot = {
+    app:'property-ledger-html', version:APP_VERSION, exportedAt:now.toISOString(),
+    data:{ properties:data.properties, rooms:data.rooms, tenants:data.tenants, leases:data.leases,
+           bills:data.bills, billItems:data.billItems, payments:data.payments,
+           knowledge:data.knowledge, users:data.users, settings:kv },
+  };
+  download('物业管理台账备份-' + fileDate() + '.json', JSON.stringify(snapshot, null, 1), 'application/json');
+  await DB.kvSet('lastBackupAt', now.toISOString());
+  /* 同步写入已绑定的 .sqlite 数据库文件 */
+  if (DBFile.handle){ try { await DBFile.flush(true); } catch(e){} }
+  const cnt = (k) => (data[k] || []).length;
+  toast('✅ 备份完成：' + cnt('properties') + ' 物业 / ' + cnt('bills') + ' 账单 / ' + cnt('payments') + ' 收款 / ' + cnt('knowledge') + ' 经验', 'ok');
+  RENDER.settings();
+}
 async function exportData(){
   await loadAll();
   const kv = {};
@@ -2220,28 +2480,28 @@ function showApp(){
   $('#sbRole').textContent = session.isAdmin ? '总管理员' : '普通用户';
   $('#sbAvatar').textContent = (session.displayName || 'U').slice(0,1).toUpperCase();
   $('#tbUser').textContent = session.displayName + (session.isAdmin ? '（管理员）' : '');
-  $('#sbVer').textContent = 'v' + APP_VERSION + ' · 本地数据' + (DataFile.handle ? ' · 已关联数据文件' : '');
+  $('#sbVer').textContent = 'v' + APP_VERSION + ' · 本地数据' + (DBFile.handle ? ' · 数据库文件已绑定' : '');
   renderNav();
   go('dashboard');
 }
 async function init(){
   try { await DB.open(); await seedIfNeeded(); }
   catch(e){ alert('本地数据库初始化失败：' + (e && e.message || e) + '\n请改用 Chrome / Edge 浏览器打开本文件。'); return; }
-  /* 已关联数据文件时，登录页显示恢复入口（清缓存后从此处一键载回） */
-  if (await DataFile.restoreFromKv()){
+  /* 已绑定数据库文件时，登录页显示恢复入口（清缓存后从此处一键载回） */
+  if (await DBFile.restoreFromKv()){
     $('#fileHint').classList.remove('hidden');
     $('#fileRestoreBtn').addEventListener('click', async () => {
       const cur = await DB.all('users');
       if (cur.length > 0){
-        const okGo = await confirmBox('当前浏览器中已有数据，读取数据文件将<b>清空并覆盖</b>现有数据。确定继续吗？',
-          { okDanger:true, okText:'覆盖读取', title:'从数据文件恢复' });
+        const okGo = await confirmBox('当前浏览器中已有数据，读取 .sqlite 数据库文件将<b>清空并覆盖</b>现有数据。确定继续吗？',
+          { okDanger:true, okText:'覆盖读取', title:'从数据库文件恢复' });
         if (!okGo) return;
       }
-      const res = await DataFile.readAndApply();
+      const res = await DBFile.readAndApply();
       if (!res.ok) return toast(res.msg, 'err');
       await loadAll();
       $('#fileHint').classList.add('hidden');
-      toast('数据已从文件载入（' + res.data.properties.length + ' 物业 / ' + res.data.leases.length + ' 租约 / ' + res.data.bills.length + ' 账单），请登录', 'ok');
+      toast('数据已从 .sqlite 文件载入（' + res.data.properties.length + ' 物业 / ' + res.data.leases.length + ' 租约 / ' + res.data.bills.length + ' 账单），请登录', 'ok');
     });
     $('#fileSkipBtn').addEventListener('click', () => $('#fileHint').classList.add('hidden'));
   }
