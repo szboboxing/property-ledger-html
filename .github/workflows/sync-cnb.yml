@@ -25,6 +25,6 @@ jobs:
         env:
           CNB_TOKEN: ${{ secrets.CNB_TOKEN }}
         run: |
-          git remote add cnb "https://cnb:${CNB_TOKEN}@cnb.cool/szjack/MousePro.git"
+          git remote add cnb "https://cnb:${CNB_TOKEN}@cnb.cool/szjack/property-ledger-html.git"
           git push cnb main --force
           git push cnb --tags --force
