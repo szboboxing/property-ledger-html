@@ -917,6 +917,7 @@ function renderNav(){
       '<span class="ti">' + t.icon + '</span>' + t.name + '</button>').join('');
 }
 function go(key){
+  if (key === 'more') { showSheet(); return; }
   if (!navAllowed(key)) key = 'dashboard';
   currentPage = key;
   renderNav();
