@@ -2510,6 +2510,14 @@ RENDER.settings = async function(){
     '</div>' +
     '<div class="section glass card">' +
       '<div class="sec-head"><h3>💾 数据备份与恢复</h3><span class="hint">所有数据保存在本机浏览器</span></div>' +
+      '<div style="font-size:12.5px;line-height:1.75;color:var(--muted);background:rgba(217,181,125,.05);border:1px dashed var(--line2);border-radius:10px;padding:10px 12px;margin-bottom:12px">' +
+        '<div style="color:var(--text);font-weight:600;margin-bottom:4px">📖 备份说明（数据在哪、怎么搬）</div>' +
+        '默认情况下数据只存在<b style="color:var(--text)">当前这台电脑的这个浏览器</b>里（localStorage）：清理浏览器缓存 / 站点数据会丢失，换浏览器、换电脑也看不到。两种保护方式：<br>' +
+        '<b style="color:var(--text)">① 绑定 .sqlite 数据文件（首选）</b>：在下方「🗄️ 独立数据库文件」选一个本地 .sqlite 文件，之后每笔改动自动写入，清缓存不丢；换电脑把 HTML + .sqlite 一起拷走即可。<br>' +
+        '<b style="color:var(--text)">② 定期导出 JSON</b>：点「一键备份 / 导出 JSON」下载全量备份（物业 / 账单 / 收款 / 账号 / 收款码全在里面），建议重要录入后随手导出，存网盘或 U 盘。<br>' +
+        '<b style="color:var(--text)">🔁 换电脑 / 换浏览器</b>：旧环境导出 JSON（或直接拷 .sqlite 文件）→ 新环境打开本 HTML 登录 →「从备份恢复」选 JSON（或登录框下「授权并读取数据文件」）。<br>' +
+        '<b style="color:var(--text)">☁️ 升级到 PHP 版</b>：本 JSON 与 PHP 服务器版备份格式完全互通，想手机电脑随时查账时，在 PHP 版设置页直接导入本 JSON 即可上线。导入会清空并覆盖当前全部数据。' +
+      '</div>' +
       '<div id="qbStats" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-size:12px"></div>' +
       '<div id="qbStatus" style="font-size:13px;margin-bottom:12px"></div>' +
       '<button class="btn ok" id="quickBackup" style="width:100%;padding:14px;font-size:16px;font-weight:600">🚀 一键备份</button> ' +
